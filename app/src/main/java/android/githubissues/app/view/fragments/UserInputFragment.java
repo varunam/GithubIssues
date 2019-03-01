@@ -1,6 +1,8 @@
 package android.githubissues.app.view.fragments;
 
 import android.githubissues.app.R;
+import android.githubissues.app.view.apicalls.closedissues.ClosedIssuesFetchedCallbacks;
+import android.githubissues.app.view.apicalls.closedissues.FetchClosedIssuesApi;
 import android.githubissues.app.view.apicalls.openissues.FetchOpenIssuesApi;
 import android.githubissues.app.view.apicalls.openissues.OpenIssuesFetchedCallbacks;
 import android.os.Bundle;
@@ -17,7 +19,7 @@ import android.widget.Toast;
 /**
  * Created by varun.am on 01/03/19
  */
-public class UserInputFragment extends Fragment implements View.OnClickListener, OpenIssuesFetchedCallbacks {
+public class UserInputFragment extends Fragment implements View.OnClickListener, OpenIssuesFetchedCallbacks, ClosedIssuesFetchedCallbacks {
     
     private EditText organisationNameEditText, repositoryNameEditText;
     private Button fetchIssuesButton;
@@ -59,7 +61,9 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
                 String organisationName = organisationNameEditText.getText().toString().trim();
                 String repositoryName = repositoryNameEditText.getText().toString().trim();
                 FetchOpenIssuesApi.getInstance("prestodb",
-                        "presto").fetchOpenIssues();
+                        "presto").fetchOpenIssues(this);
+                FetchClosedIssuesApi.getInstance("prestodb",
+                        "presto").fetchOpenIssues(this);
                 break;
             default:
                 break;
@@ -77,6 +81,16 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
     
     @Override
     public void onOpenIssuesFetchFailure(String failureReason) {
+    
+    }
+    
+    @Override
+    public void onClosedIssuesFetchSuccessful() {
+    
+    }
+    
+    @Override
+    public void onClosedIssuesFetchFailure(String failureReason) {
     
     }
 }
