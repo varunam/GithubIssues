@@ -92,8 +92,8 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
     }
     
     @Override
-    public void onClosedIssuesFetchSuccessful() {
-    
+    public void onClosedIssuesFetchSuccessful(ArrayList<Issue> closedIssues) {
+        mainViewModel.setClosedIssues(closedIssues);
     }
     
     @Override

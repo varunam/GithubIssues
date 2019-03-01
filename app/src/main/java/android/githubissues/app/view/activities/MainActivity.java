@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private void init() {
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mainViewModel.getOpenIssues().observe(this, openIssuesObserver);
+        mainViewModel.getClosedIssues().observe(this, closedIssuesObserver);
     }
     
     private void launchUserInputFragment() {
@@ -50,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
         public void onChanged(@Nullable ArrayList<Issue> issues) {
             if (issues != null)
                 Log.d(TAG, "received openIssues: " + issues.size());
+        }
+    };
+    
+    private Observer<ArrayList<Issue>> closedIssuesObserver = new Observer<ArrayList<Issue>>() {
+        @Override
+        public void onChanged(@Nullable ArrayList<Issue> issues) {
+            if (issues != null)
+                Log.d(TAG, "received closedIssues: " + issues.size());
         }
     };
 }
