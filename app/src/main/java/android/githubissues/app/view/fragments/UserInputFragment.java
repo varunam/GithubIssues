@@ -1,11 +1,13 @@
 package android.githubissues.app.view.fragments;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.githubissues.app.R;
 import android.githubissues.app.view.apicalls.closedissues.ClosedIssuesFetchedCallbacks;
 import android.githubissues.app.view.apicalls.closedissues.FetchClosedIssuesApi;
 import android.githubissues.app.view.apicalls.model.Issue;
 import android.githubissues.app.view.apicalls.openissues.FetchOpenIssuesApi;
 import android.githubissues.app.view.apicalls.openissues.OpenIssuesFetchedCallbacks;
+import android.githubissues.app.view.viewmodel.MainViewModel;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,6 +28,7 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
     
     private EditText organisationNameEditText, repositoryNameEditText;
     private Button fetchIssuesButton;
+    private MainViewModel mainViewModel;
     
     public static UserInputFragment newInstance() {
         
@@ -50,6 +53,7 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
     }
     
     private void initViews(View view) {
+        mainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
         organisationNameEditText = view.findViewById(R.id.ui_organisation_name_et_id);
         repositoryNameEditText = view.findViewById(R.id.ui_repository_name_et_id);
         fetchIssuesButton = view.findViewById(R.id.ui_fetch_issues_button_id);
@@ -79,7 +83,7 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
     
     @Override
     public void onOpenIssuesFetchSuccessful(ArrayList<Issue> openIssues) {
-    
+        mainViewModel.setOpenIssues(openIssues);
     }
     
     @Override
