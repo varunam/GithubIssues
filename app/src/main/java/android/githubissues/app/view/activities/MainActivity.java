@@ -1,5 +1,6 @@
-package android.githubissues.app;
+package android.githubissues.app.view.activities;
 
+import android.githubissues.app.R;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
