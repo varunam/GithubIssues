@@ -5,5 +5,10 @@ package android.githubissues.app.view.utils;
  */
 public class Constants {
     
+    public class ApiConstants {
+        public static final String BASE_URL = "https://api.github.com/repos/";
+        public static final String ISSUE_STATE_OPEN = "/issues?state=closed";
+    }
+    
     public static final String NOT_AVAILABLE = "not-available";
 }

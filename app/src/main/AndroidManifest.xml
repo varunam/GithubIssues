@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="android.githubissues.app">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".view.application.ThisApplication"
         android:allowBackup="true"

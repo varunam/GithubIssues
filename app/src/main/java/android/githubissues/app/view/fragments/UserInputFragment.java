@@ -1,6 +1,8 @@
 package android.githubissues.app.view.fragments;
 
 import android.githubissues.app.R;
+import android.githubissues.app.view.apicalls.openissues.FetchOpenIssuesApi;
+import android.githubissues.app.view.apicalls.openissues.OpenIssuesFetchedCallbacks;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +17,7 @@ import android.widget.Toast;
 /**
  * Created by varun.am on 01/03/19
  */
-public class UserInputFragment extends Fragment implements View.OnClickListener{
+public class UserInputFragment extends Fragment implements View.OnClickListener, OpenIssuesFetchedCallbacks {
     
     private EditText organisationNameEditText, repositoryNameEditText;
     private Button fetchIssuesButton;
@@ -54,7 +56,10 @@ public class UserInputFragment extends Fragment implements View.OnClickListener{
         int id = view.getId();
         switch (id) {
             case R.id.ui_fetch_issues_button_id:
-                toast("clicked");
+                String organisationName = organisationNameEditText.getText().toString().trim();
+                String repositoryName = repositoryNameEditText.getText().toString().trim();
+                FetchOpenIssuesApi.getInstance("prestodb",
+                        "presto").fetchOpenIssues();
                 break;
             default:
                 break;
@@ -63,5 +68,15 @@ public class UserInputFragment extends Fragment implements View.OnClickListener{
     
     private void toast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+    }
+    
+    @Override
+    public void onOpenIssuesFetchSuccessful() {
+    
+    }
+    
+    @Override
+    public void onOpenIssuesFetchFailure(String failureReason) {
+    
     }
 }
