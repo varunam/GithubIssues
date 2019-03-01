@@ -1,5 +1,7 @@
 package android.githubissues.app.view.apicalls.model;
 
+import android.githubissues.app.view.utils.Constants;
+
 /**
  * Created by varun.am on 01/03/19
  */
@@ -10,6 +12,13 @@ public class Issue {
     private String pull_request_number;
     private String title;
     private String patch_url;
+    
+    public Issue(IssueStatus issue_status) {
+        if (issue_status == IssueStatus.OPEN) {
+            this.patch_url = Constants.NOT_AVAILABLE;
+            this.pull_request_number = Constants.NOT_AVAILABLE;
+        }
+    }
     
     public IssueStatus getIssue_status() {
         return issue_status;

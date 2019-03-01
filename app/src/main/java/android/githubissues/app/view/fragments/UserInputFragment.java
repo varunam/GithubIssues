@@ -3,6 +3,7 @@ package android.githubissues.app.view.fragments;
 import android.githubissues.app.R;
 import android.githubissues.app.view.apicalls.closedissues.ClosedIssuesFetchedCallbacks;
 import android.githubissues.app.view.apicalls.closedissues.FetchClosedIssuesApi;
+import android.githubissues.app.view.apicalls.model.Issue;
 import android.githubissues.app.view.apicalls.openissues.FetchOpenIssuesApi;
 import android.githubissues.app.view.apicalls.openissues.OpenIssuesFetchedCallbacks;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * Created by varun.am on 01/03/19
@@ -75,7 +78,7 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
     }
     
     @Override
-    public void onOpenIssuesFetchSuccessful() {
+    public void onOpenIssuesFetchSuccessful(ArrayList<Issue> openIssues) {
     
     }
     
