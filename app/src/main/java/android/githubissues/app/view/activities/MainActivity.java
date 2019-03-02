@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private UserInputFragment userInputFragment;
     private IssuesListFragment issuesListFragment;
     private MainViewModel mainViewModel;
-    private ArrayList<Issue> openIssues, closedIssues, allIssues;
+    private ArrayList<Issue> allIssues = new ArrayList<>();
+    private boolean openIssuesAdded = false, closedIssuesAdded = false;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +54,15 @@ public class MainActivity extends AppCompatActivity {
         public void onChanged(@Nullable ArrayList<Issue> issues) {
             if (issues != null) {
                 Log.d(TAG, "received openIssues: " + issues.size());
-                openIssues = issues;
-                if (allIssues == null) {
-                    allIssues = openIssues;
+                if (!closedIssuesAdded) {
+                    allIssues.clear();
+                    allIssues = issues;
                     Log.d(TAG, "assigning openIssues to allIssues");
+                    openIssuesAdded = true;
                 } else {
-                    allIssues.addAll(openIssues);
+                    allIssues.addAll(issues);
                     Log.d(TAG, "appending openIssues to allIssues");
+                    userInputFragment.hideProgressDialog();
                     launchIssuesListFragment(allIssues);
                 }
             }
@@ -71,12 +74,14 @@ public class MainActivity extends AppCompatActivity {
         public void onChanged(@Nullable ArrayList<Issue> issues) {
             if (issues != null) {
                 Log.d(TAG, "received closedIssues: " + issues.size());
-                closedIssues = issues;
-                if (allIssues == null) {
-                    allIssues = closedIssues;
+                if (!openIssuesAdded) {
+                    allIssues.clear();
+                    allIssues = issues;
+                    closedIssuesAdded = true;
                     Log.d(TAG, "assigning closedIssues to allIssues");
                 } else {
-                    allIssues.addAll(closedIssues);
+                    allIssues.addAll(issues);
+                    userInputFragment.hideProgressDialog();
                     Log.d(TAG, "appending closed Issues to allIssues");
                     launchIssuesListFragment(allIssues);
                 }
@@ -84,19 +89,19 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     
-    /*private Observer<Boolean> userInputReceivedObserver = new Observer<Boolean>() {
-        @Override
-        public void onChanged(@Nullable Boolean aBoolean) {
-            launchIssuesListFragment();
-        }
-    };*/
-    
     private void launchIssuesListFragment(ArrayList<Issue> allIssues) {
         Log.d(TAG, "launching fragment with " + allIssues.size() + " issues");
         issuesListFragment = IssuesListFragment.newInstance(allIssues);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_container_id, issuesListFragment)
+                .addToBackStack(IssuesListFragment.class.getSimpleName())
                 .commitAllowingStateLoss();
+        resetFlags();
+    }
+    
+    private void resetFlags() {
+        openIssuesAdded = false;
+        closedIssuesAdded = false;
     }
 }

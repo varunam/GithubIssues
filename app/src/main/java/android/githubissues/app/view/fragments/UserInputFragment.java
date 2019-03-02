@@ -1,5 +1,6 @@
 package android.githubissues.app.view.fragments;
 
+import android.app.ProgressDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.githubissues.app.R;
 import android.githubissues.app.view.apicalls.closedissues.ClosedIssuesFetchedCallbacks;
@@ -29,6 +30,7 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
     private EditText organisationNameEditText, repositoryNameEditText;
     private Button fetchIssuesButton;
     private MainViewModel mainViewModel;
+    private ProgressDialog progressDialog;
     
     public static UserInputFragment newInstance() {
         
@@ -53,6 +55,7 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
     }
     
     private void initViews(View view) {
+        progressDialog = new ProgressDialog(getContext());
         mainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
         organisationNameEditText = view.findViewById(R.id.ui_organisation_name_et_id);
         repositoryNameEditText = view.findViewById(R.id.ui_repository_name_et_id);
@@ -65,6 +68,7 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
         int id = view.getId();
         switch (id) {
             case R.id.ui_fetch_issues_button_id:
+                showProgressDialog();
                 String organisationName = organisationNameEditText.getText().toString().trim();
                 String repositoryName = repositoryNameEditText.getText().toString().trim();
                 FetchOpenIssuesApi.getInstance("prestodb",
@@ -74,6 +78,20 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
                 break;
             default:
                 break;
+        }
+    }
+    
+    private void showProgressDialog() {
+        progressDialog.setTitle("Loading...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+    
+    public void hideProgressDialog() {
+        if (progressDialog != null) {
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
         }
     }
     

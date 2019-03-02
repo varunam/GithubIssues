@@ -53,7 +53,7 @@ public class IssuesListFragment extends Fragment {
         if (getArguments() != null && getArguments().containsKey(ISSUES_LIST_KEY)) {
             allIssuesList = getArguments().getParcelableArrayList(ISSUES_LIST_KEY);
             issuesAdapter.setIssues(allIssuesList);
-            Log.d(TAG, "all issues set to adapter: " + allIssuesList.size());
+            Log.d(TAG, "all issues set to adapter " + allIssuesList.size());
         }
     }
     
