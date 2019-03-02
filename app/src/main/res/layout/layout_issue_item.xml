@@ -2,6 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/issue_card_id"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
@@ -26,11 +27,20 @@
             android:layout_marginStart="5dp"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
-            android:textSize="19sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             tools:text="Title: " />
 
+        <TextView
+            android:id="@+id/item_status_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:text="Status here" />
+
         <View
+            android:id="@+id/divider_id"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginStart="30dp"
@@ -39,105 +49,61 @@
             android:layout_marginBottom="5dp"
             android:background="@color/colorAccent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/item_user_label_id"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:layout_marginTop="7dp"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_marginTop="5dp"
+            android:text="@string/user_label"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/issue_status_label"
-                android:textColor="@color/colorPrimary"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/item_status_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                tools:text="Status here" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/item_user_id"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:textSize="15sp"
+            tools:text="User name here" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/user_label"
-                android:textColor="@color/colorPrimary"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/item_user_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="17sp"
-                tools:text="User name here" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/item_pr_number_label_id"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_marginTop="5dp"
+            android:text="@string/pr_number_label"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pr_number_label"
-                android:textColor="@color/colorPrimary"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/item_pull_request_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="17sp"
-                tools:text="PR Number" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/item_pull_request_id"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:textSize="15sp"
+            tools:text="PR Number" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/patch_url_label"
-                android:textColor="@color/colorPrimary"
-                android:textSize="15sp"
-                android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/item_patch_url_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textColor="@color/blue"
-                android:textSize="17sp"
-                tools:text="Patch url here" />
+        <TextView
+            android:id="@+id/item_patch_url_label_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/patch_url_label"
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/item_patch_url_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:textColor="@color/blue"
+            android:textSize="15sp"
+            tools:text="Patch url here" />
 
     </LinearLayout>
 
