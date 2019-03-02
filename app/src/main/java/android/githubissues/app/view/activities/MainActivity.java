@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private UserInputFragment userInputFragment;
     private IssuesListFragment issuesListFragment;
     private MainViewModel mainViewModel;
+    private ArrayList<Issue> openIssues, closedIssues, allIssues;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mainViewModel.getOpenIssues().observe(this, openIssuesObserver);
         mainViewModel.getClosedIssues().observe(this, closedIssuesObserver);
-        mainViewModel.getUserInputReceived().observe(this, userInputReceivedObserver);
+        //mainViewModel.getUserInputReceived().observe(this, userInputReceivedObserver);
     }
     
     private void launchUserInputFragment() {
@@ -52,7 +53,15 @@ public class MainActivity extends AppCompatActivity {
         public void onChanged(@Nullable ArrayList<Issue> issues) {
             if (issues != null) {
                 Log.d(TAG, "received openIssues: " + issues.size());
-                mainViewModel.setUserInputReceived(true);
+                openIssues = issues;
+                if (allIssues == null) {
+                    allIssues = openIssues;
+                    Log.d(TAG, "assigning openIssues to allIssues");
+                } else {
+                    allIssues.addAll(openIssues);
+                    Log.d(TAG, "appending openIssues to allIssues");
+                    launchIssuesListFragment(allIssues);
+                }
             }
         }
     };
@@ -60,22 +69,31 @@ public class MainActivity extends AppCompatActivity {
     private Observer<ArrayList<Issue>> closedIssuesObserver = new Observer<ArrayList<Issue>>() {
         @Override
         public void onChanged(@Nullable ArrayList<Issue> issues) {
-            if (issues != null)
+            if (issues != null) {
                 Log.d(TAG, "received closedIssues: " + issues.size());
+                closedIssues = issues;
+                if (allIssues == null) {
+                    allIssues = closedIssues;
+                    Log.d(TAG, "assigning closedIssues to allIssues");
+                } else {
+                    allIssues.addAll(closedIssues);
+                    Log.d(TAG, "appending closed Issues to allIssues");
+                    launchIssuesListFragment(allIssues);
+                }
+            }
         }
     };
     
-    private Observer<Boolean> userInputReceivedObserver = new Observer<Boolean>() {
+    /*private Observer<Boolean> userInputReceivedObserver = new Observer<Boolean>() {
         @Override
         public void onChanged(@Nullable Boolean aBoolean) {
             launchIssuesListFragment();
         }
-    };
+    };*/
     
-    private void launchIssuesListFragment() {
-        if (issuesListFragment == null)
-            issuesListFragment = IssuesListFragment.newInstance();
-        
+    private void launchIssuesListFragment(ArrayList<Issue> allIssues) {
+        Log.d(TAG, "launching fragment with " + allIssues.size() + " issues");
+        issuesListFragment = IssuesListFragment.newInstance(allIssues);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_container_id, issuesListFragment)

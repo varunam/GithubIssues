@@ -4,6 +4,7 @@ import android.githubissues.app.R;
 import android.githubissues.app.view.apicalls.model.Issue;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
  */
 public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder> {
     
+    private static final String TAG = IssuesAdapter.class.getSimpleName();
     private ArrayList<Issue> issues;
     
     public IssuesAdapter() {
@@ -44,12 +46,14 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
         viewHolder.patch_url.setText(issue.getPatch_url());
         viewHolder.user.setText(issue.getUser());
         viewHolder.title.setText(issue.getTitle());
+        Log.d(TAG, "Issue status: " + issue.getIssue_status().name());
         
     }
     
     @Override
     public int getItemCount() {
-        if (issues.size() > 0)
+        Log.d(TAG,"issues size: " + issues.size());
+        if (issues != null && issues.size() > 0)
             return issues.size();
         else
             return 0;

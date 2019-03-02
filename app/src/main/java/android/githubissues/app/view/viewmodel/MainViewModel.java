@@ -34,7 +34,7 @@ public class MainViewModel extends AndroidViewModel {
     }
     
     public MutableLiveData<ArrayList<Issue>> getClosedIssues() {
-        return openIssues;
+        return closedIssues;
     }
     
     public MutableLiveData<ArrayList<Issue>> getOpenIssues() {

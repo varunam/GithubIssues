@@ -1,6 +1,5 @@
 package android.githubissues.app.view.fragments;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.githubissues.app.R;
 import android.githubissues.app.view.adapter.IssuesAdapter;
@@ -24,16 +23,17 @@ import java.util.ArrayList;
  */
 public class IssuesListFragment extends Fragment {
     
+    public static final String ISSUES_LIST_KEY = "issues_list_key";
     private static final String TAG = IssuesListFragment.class.getSimpleName();
     private RecyclerView issuesRecyclerView;
     private MainViewModel mainViewModel;
     private IssuesAdapter issuesAdapter;
     private ArrayList<Issue> allIssuesList;
     
-    public static IssuesListFragment newInstance() {
+    public static IssuesListFragment newInstance(ArrayList<Issue> issuesList) {
         
         Bundle args = new Bundle();
-        
+        args.putParcelableArrayList(ISSUES_LIST_KEY, issuesList);
         IssuesListFragment fragment = new IssuesListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -50,6 +50,11 @@ public class IssuesListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         
         init(view);
+        if (getArguments() != null && getArguments().containsKey(ISSUES_LIST_KEY)) {
+            allIssuesList = getArguments().getParcelableArrayList(ISSUES_LIST_KEY);
+            issuesAdapter.setIssues(allIssuesList);
+            Log.d(TAG, "all issues set to adapter: " + allIssuesList.size());
+        }
     }
     
     private void init(View view) {
@@ -60,10 +65,9 @@ public class IssuesListFragment extends Fragment {
         issuesRecyclerView.setAdapter(issuesAdapter);
         
         mainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
-        mainViewModel.getOpenIssues().observe(this, issuesObserver);
     }
     
-    private Observer<ArrayList<Issue>> issuesObserver = new Observer<ArrayList<Issue>>() {
+   /* private Observer<ArrayList<Issue>> issuesObserver = new Observer<ArrayList<Issue>>() {
         @Override
         public void onChanged(@Nullable ArrayList<Issue> issues) {
             if (issues != null) {
@@ -72,5 +76,5 @@ public class IssuesListFragment extends Fragment {
                 issuesAdapter.setIssues(allIssuesList);
             }
         }
-    };
+    };*/
 }
