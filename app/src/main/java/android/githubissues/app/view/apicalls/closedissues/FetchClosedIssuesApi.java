@@ -16,6 +16,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -26,6 +27,7 @@ public class FetchClosedIssuesApi {
     private static final String TAG = FetchClosedIssuesApi.class.getSimpleName();
     private static FetchClosedIssuesApi fetchClosedIssuesApi;
     private ClosedIssuesFetchedCallbacks closedIssuesFetchedCallbacks;
+    private String organisationName, repositoryName;
     
     public static FetchClosedIssuesApi getInstance() {
         if (fetchClosedIssuesApi == null)
@@ -38,6 +40,8 @@ public class FetchClosedIssuesApi {
         String URL = Constants.ApiConstants.BASE_URL + organisationName + "/" + repositoryName +
                 Constants.ApiConstants.ISSUE_STATE_CLOSED;
         Log.d(TAG, "Closed Issues URL: " + URL);
+        this.organisationName = organisationName;
+        this.repositoryName = repositoryName;
         StringRequest fetchClosedIssuesRequest = new VolleyStringRequest(
                 Request.Method.GET,
                 URL,
@@ -81,7 +85,8 @@ public class FetchClosedIssuesApi {
                 }
                 if (pullRequestObject.has(Constants.ApiResponseConstants.URL)) {
                     String pr_number = pullRequestObject.get(Constants.ApiResponseConstants.URL).getAsString()
-                            .replaceAll(Constants.ApiResponseConstants.PULL_REQUEST_PREFIX, "");
+                            .replaceAll(Constants.ApiConstants.BASE_URL, "")
+                            .replaceAll(organisationName + File.separator + repositoryName + File.separator + "pulls/", "");
                     issue.setPull_request_number(pr_number);
                 } else {
                     issue.setPull_request_number(Constants.NOT_AVAILABLE);

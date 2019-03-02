@@ -15,7 +15,9 @@ public class MainViewModel extends AndroidViewModel {
     
     private MutableLiveData<ArrayList<Issue>> closedIssues = new MutableLiveData<>();
     private MutableLiveData<ArrayList<Issue>> openIssues = new MutableLiveData<>();
-    private MutableLiveData<Boolean> userInputReceived = new MutableLiveData<>();
+    private MutableLiveData<String> orgName = new MutableLiveData<>();
+    private MutableLiveData<String> repoName = new MutableLiveData<>();
+    
     
     public MainViewModel(@NonNull Application application) {
         super(application);
@@ -29,8 +31,20 @@ public class MainViewModel extends AndroidViewModel {
         this.openIssues.postValue(openIssues);
     }
     
-    public void setUserInputReceived(boolean inputReceived) {
-        this.userInputReceived.postValue(inputReceived);
+    public void setOrgName(String orgName){
+        this.orgName.postValue(orgName);
+    }
+    
+    public MutableLiveData<String> getOrgName(){
+        return orgName;
+    }
+    
+    public void setRepoName(String repoName){
+        this.repoName.postValue(repoName);
+    }
+    
+    public MutableLiveData<String> getRepoName(){
+        return repoName;
     }
     
     public MutableLiveData<ArrayList<Issue>> getClosedIssues() {
@@ -39,9 +53,5 @@ public class MainViewModel extends AndroidViewModel {
     
     public MutableLiveData<ArrayList<Issue>> getOpenIssues() {
         return openIssues;
-    }
-    
-    public MutableLiveData<Boolean> getUserInputReceived() {
-        return userInputReceived;
     }
 }

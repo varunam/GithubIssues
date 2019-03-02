@@ -33,7 +33,6 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
     
     private static final String TAG = UserInputFragment.class.getSimpleName();
     private TextInputEditText organisationNameEditText, repositoryNameEditText;
-    private Button fetchIssuesButton;
     private MainViewModel mainViewModel;
     private ProgressDialog progressDialog;
     
@@ -64,7 +63,7 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
         mainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
         organisationNameEditText = view.findViewById(R.id.ui_organisation_name_et_id);
         repositoryNameEditText = view.findViewById(R.id.ui_repository_name_et_id);
-        fetchIssuesButton = view.findViewById(R.id.ui_fetch_issues_button_id);
+        Button fetchIssuesButton = view.findViewById(R.id.ui_fetch_issues_button_id);
         fetchIssuesButton.setOnClickListener(this);
     }
     
@@ -89,6 +88,8 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
                             repositoryName, this);
                     FetchClosedIssuesApi.getInstance().fetchOpenIssues(organisationName,
                             repositoryName, this);
+                    mainViewModel.setOrgName(organisationName);
+                    mainViewModel.setRepoName(repositoryName);
                 }
                 break;
             default:

@@ -1,5 +1,6 @@
 package android.githubissues.app.view.fragments;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.githubissues.app.R;
 import android.githubissues.app.view.adapter.IssuesAdapter;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -25,10 +27,10 @@ public class IssuesListFragment extends Fragment {
     
     public static final String ISSUES_LIST_KEY = "issues_list_key";
     private static final String TAG = IssuesListFragment.class.getSimpleName();
-    private RecyclerView issuesRecyclerView;
     private MainViewModel mainViewModel;
     private IssuesAdapter issuesAdapter;
     private ArrayList<Issue> allIssuesList;
+    private TextView orgNameTextView, repoNameTextView;
     
     public static IssuesListFragment newInstance(ArrayList<Issue> issuesList) {
         
@@ -60,21 +62,31 @@ public class IssuesListFragment extends Fragment {
     private void init(View view) {
         allIssuesList = new ArrayList<>();
         issuesAdapter = new IssuesAdapter();
-        issuesRecyclerView = view.findViewById(R.id.issues_list_recyclerview_id);
+        orgNameTextView = view.findViewById(R.id.issues_list_org_name_id);
+        repoNameTextView = view.findViewById(R.id.issues_list_repo_name_id);
+        RecyclerView issuesRecyclerView = view.findViewById(R.id.issues_list_recyclerview_id);
         issuesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         issuesRecyclerView.setAdapter(issuesAdapter);
         
         mainViewModel = ViewModelProviders.of(getActivity()).get(MainViewModel.class);
+        mainViewModel.getOrgName().observe(this, orgNameObserver);
+        mainViewModel.getRepoName().observe(this, repoNameObserver);
     }
     
-   /* private Observer<ArrayList<Issue>> issuesObserver = new Observer<ArrayList<Issue>>() {
+    private Observer<String> orgNameObserver = new Observer<String>() {
         @Override
-        public void onChanged(@Nullable ArrayList<Issue> issues) {
-            if (issues != null) {
-                Log.d(TAG, "received issues in fragment: " + issues.size());
-                allIssuesList.addAll(issues);
-                issuesAdapter.setIssues(allIssuesList);
-            }
+        public void onChanged(@Nullable String s) {
+            if (s != null)
+                orgNameTextView.setText(s.toUpperCase());
         }
-    };*/
+    };
+    
+    private Observer<String> repoNameObserver = new Observer<String>() {
+        @Override
+        public void onChanged(@Nullable String s) {
+            if (s != null)
+                repoNameTextView.setText(s.toUpperCase());
+        }
+    };
+    
 }

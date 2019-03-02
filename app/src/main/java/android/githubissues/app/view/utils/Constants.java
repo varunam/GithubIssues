@@ -18,7 +18,6 @@ public class Constants {
         public static final String PATCH_URL = "patch_url";
         public static final String LOGIN = "login";
         public static final String URL = "url";
-        public static final String PULL_REQUEST_PREFIX = "https://api.github.com/r…stodb/presto/pulls/";
         public static final long CACHE_DURATION = 30;
     }
     
