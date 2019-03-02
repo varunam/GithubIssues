@@ -31,8 +31,8 @@ public class VolleyStringRequest extends StringRequest {
             }
             // in CACHE_DURATION minutes cache will be hit, but also refreshed on background
             final long cacheHitButRefreshed = TimeUnit.MINUTES.toMillis(Constants.ApiResponseConstants.CACHE_DURATION);
-            // in 24 hours this cache entry expires completely
-            final long cacheExpired = TimeUnit.DAYS.toMillis(1);
+            // in 30 minutes this cache entry expires completely
+            final long cacheExpired = TimeUnit.MINUTES.toMillis(Constants.ApiResponseConstants.CACHE_DURATION);
             long now = System.currentTimeMillis();
             final long softExpire = now + cacheHitButRefreshed;
             final long ttl = now + cacheExpired;

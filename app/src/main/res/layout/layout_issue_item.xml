@@ -33,10 +33,10 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="30dp"
+            android:layout_marginBottom="5dp"
             android:background="@color/colorAccent" />
 
         <LinearLayout
@@ -132,6 +132,7 @@
                 android:id="@+id/item_patch_url_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
                 android:textColor="@color/blue"
                 android:textSize="17sp"
                 tools:text="Patch url here" />

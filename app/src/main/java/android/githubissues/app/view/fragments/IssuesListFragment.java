@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.githubissues.app.R;
 import android.githubissues.app.view.adapter.IssuesAdapter;
+import android.githubissues.app.view.adapter.PatchUrlClickedCallback;
 import android.githubissues.app.view.apicalls.model.Issue;
 import android.githubissues.app.view.viewmodel.MainViewModel;
 import android.os.Bundle;
@@ -16,14 +17,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.TextView;
+
+import com.thefinestartist.finestwebview.FinestWebView;
 
 import java.util.ArrayList;
 
 /**
  * Created by varun.am on 01/03/19
  */
-public class IssuesListFragment extends Fragment {
+public class IssuesListFragment extends Fragment implements PatchUrlClickedCallback {
     
     public static final String ISSUES_LIST_KEY = "issues_list_key";
     private static final String TAG = IssuesListFragment.class.getSimpleName();
@@ -61,7 +65,7 @@ public class IssuesListFragment extends Fragment {
     
     private void init(View view) {
         allIssuesList = new ArrayList<>();
-        issuesAdapter = new IssuesAdapter();
+        issuesAdapter = new IssuesAdapter(this);
         orgNameTextView = view.findViewById(R.id.issues_list_org_name_id);
         repoNameTextView = view.findViewById(R.id.issues_list_repo_name_id);
         RecyclerView issuesRecyclerView = view.findViewById(R.id.issues_list_recyclerview_id);
@@ -89,4 +93,11 @@ public class IssuesListFragment extends Fragment {
         }
     };
     
+    @Override
+    public void onPatchUrlClicked(String patch_url) {
+        if (URLUtil.isValidUrl(patch_url))
+            new FinestWebView.Builder(getActivity()).show(patch_url);
+        else
+            Log.e(TAG, "Ignoring invalid url: " + patch_url);
+    }
 }

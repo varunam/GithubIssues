@@ -18,8 +18,10 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
     
     private static final String TAG = IssuesAdapter.class.getSimpleName();
     private ArrayList<Issue> issues;
+    private PatchUrlClickedCallback patchUrlClickedCallback;
     
-    public IssuesAdapter() {
+    public IssuesAdapter(@NonNull PatchUrlClickedCallback patchUrlClickedCallback) {
+        this.patchUrlClickedCallback = patchUrlClickedCallback;
         issues = new ArrayList<>();
     }
     
@@ -37,14 +39,21 @@ public class IssuesAdapter extends RecyclerView.Adapter<IssuesAdapter.ViewHolder
     }
     
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        Issue issue = issues.get(position);
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
+        final Issue issue = issues.get(position);
         
         viewHolder.issue_status.setText(issue.getIssue_status().name());
         viewHolder.pull_request_number.setText(issue.getPull_request_number());
         viewHolder.patch_url.setText(issue.getPatch_url());
         viewHolder.user.setText(issue.getUser());
         viewHolder.title.setText(issue.getTitle());
+        
+        viewHolder.patch_url.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                patchUrlClickedCallback.onPatchUrlClicked(issue.getPatch_url());
+            }
+        });
         
     }
     
