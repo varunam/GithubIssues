@@ -2,6 +2,8 @@ package android.githubissues.app.view.apicalls.closedissues;
 
 import android.githubissues.app.view.apicalls.model.Issue;
 
+import com.android.volley.VolleyError;
+
 import java.util.ArrayList;
 
 /**
@@ -9,5 +11,5 @@ import java.util.ArrayList;
  */
 public interface ClosedIssuesFetchedCallbacks {
     public void onClosedIssuesFetchSuccessful(ArrayList<Issue> closedIssues);
-    public void onClosedIssuesFetchFailure(String failureReason);
+    public void onClosedIssuesFetchFailure(VolleyError volleyError);
 }

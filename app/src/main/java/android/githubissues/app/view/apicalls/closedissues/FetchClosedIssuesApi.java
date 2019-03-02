@@ -25,8 +25,6 @@ public class FetchClosedIssuesApi {
     
     private static final String TAG = FetchClosedIssuesApi.class.getSimpleName();
     private static FetchClosedIssuesApi fetchClosedIssuesApi;
-    private String URL;
-    private StringRequest fetchClosedIssuesRequest;
     private ClosedIssuesFetchedCallbacks closedIssuesFetchedCallbacks;
     
     public static FetchClosedIssuesApi getInstance() {
@@ -37,10 +35,10 @@ public class FetchClosedIssuesApi {
     
     public void fetchOpenIssues(@NonNull String organisationName, @NonNull String repositoryName, ClosedIssuesFetchedCallbacks openIssuesFetchedCallbacks) {
         this.closedIssuesFetchedCallbacks = openIssuesFetchedCallbacks;
-        URL = Constants.ApiConstants.BASE_URL + organisationName + "/" + repositoryName +
+        String URL = Constants.ApiConstants.BASE_URL + organisationName + "/" + repositoryName +
                 Constants.ApiConstants.ISSUE_STATE_CLOSED;
         Log.d(TAG, "Closed Issues URL: " + URL);
-        fetchClosedIssuesRequest = new VolleyStringRequest(
+        StringRequest fetchClosedIssuesRequest = new VolleyStringRequest(
                 Request.Method.GET,
                 URL,
                 fetchOpenIssuesSuccessListener,
@@ -113,7 +111,7 @@ public class FetchClosedIssuesApi {
         public void onErrorResponse(VolleyError error) {
             Log.d(TAG, "fetchClosedIssues failure response received: " + error.getMessage());
             error.printStackTrace();
-            closedIssuesFetchedCallbacks.onClosedIssuesFetchFailure(error.getMessage());
+            closedIssuesFetchedCallbacks.onClosedIssuesFetchFailure(error);
         }
     };
 }

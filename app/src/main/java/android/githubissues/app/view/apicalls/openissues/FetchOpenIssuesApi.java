@@ -25,8 +25,6 @@ public class FetchOpenIssuesApi {
     
     private static final String TAG = FetchOpenIssuesApi.class.getSimpleName();
     private static FetchOpenIssuesApi fetchOpenIssuesApi;
-    private String URL;
-    private StringRequest fetchOpenIssuesRequest;
     private OpenIssuesFetchedCallbacks openIssuesFetchedCallbacks;
     
     public static FetchOpenIssuesApi getInstance() {
@@ -36,10 +34,10 @@ public class FetchOpenIssuesApi {
     }
     
     public void fetchOpenIssues(@NonNull String organisationName, @NonNull String repositoryName, OpenIssuesFetchedCallbacks openIssuesFetchedCallbacks) {
-        URL = Constants.ApiConstants.BASE_URL + organisationName + "/" + repositoryName +
+        String URL = Constants.ApiConstants.BASE_URL + organisationName + "/" + repositoryName +
                 Constants.ApiConstants.ISSUE_STATE_OPEN;
         Log.d(TAG, "Open Issues URL: " + URL);
-        fetchOpenIssuesRequest = new VolleyStringRequest(
+        StringRequest fetchOpenIssuesRequest = new VolleyStringRequest(
                 Request.Method.GET,
                 URL,
                 fetchOpenIssuesSuccessListener,
@@ -85,7 +83,7 @@ public class FetchOpenIssuesApi {
         public void onErrorResponse(VolleyError error) {
             Log.d(TAG, "fetchOpenIssues failure response received: " + error.getMessage());
             error.printStackTrace();
-            openIssuesFetchedCallbacks.onOpenIssuesFetchFailure(error.getMessage());
+            openIssuesFetchedCallbacks.onOpenIssuesFetchFailure(error);
         }
     };
 }

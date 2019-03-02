@@ -1,9 +1,17 @@
 package android.githubissues.app.view.volley;
 
+import android.githubissues.app.view.utils.Constants;
 import android.support.annotation.Nullable;
 
+import com.android.volley.Cache;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Response;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
+
+import java.io.UnsupportedEncodingException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by varun.am on 02/03/19
@@ -14,15 +22,17 @@ public class VolleyStringRequest extends StringRequest {
         super(method, url, listener, errorListener);
     }
     
-    /*@Override
+    @Override
     protected Response<String> parseNetworkResponse(NetworkResponse response) {
         try {
             Cache.Entry cacheEntry = HttpHeaderParser.parseCacheHeaders(response);
             if (cacheEntry == null) {
                 cacheEntry = new Cache.Entry();
             }
-            final long cacheHitButRefreshed = 3 * 60 * 1000; // in 3 minutes cache will be hit, but also refreshed on background
-            final long cacheExpired = 24 * 60 * 60 * 1000; // in 24 hours this cache entry expires completely
+            // in CACHE_DURATION minutes cache will be hit, but also refreshed on background
+            final long cacheHitButRefreshed = TimeUnit.MINUTES.toMillis(Constants.ApiResponseConstants.CACHE_DURATION);
+            // in 24 hours this cache entry expires completely
+            final long cacheExpired = TimeUnit.DAYS.toMillis(1);
             long now = System.currentTimeMillis();
             final long softExpire = now + cacheHitButRefreshed;
             final long ttl = now + cacheExpired;
@@ -45,5 +55,5 @@ public class VolleyStringRequest extends StringRequest {
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
         }
-    }*/
+    }
 }

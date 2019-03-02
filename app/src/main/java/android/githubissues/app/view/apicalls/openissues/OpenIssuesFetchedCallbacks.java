@@ -2,6 +2,8 @@ package android.githubissues.app.view.apicalls.openissues;
 
 import android.githubissues.app.view.apicalls.model.Issue;
 
+import com.android.volley.VolleyError;
+
 import java.util.ArrayList;
 
 /**
@@ -9,5 +11,5 @@ import java.util.ArrayList;
  */
 public interface OpenIssuesFetchedCallbacks {
     public void onOpenIssuesFetchSuccessful(ArrayList<Issue> openIssues);
-    public void onOpenIssuesFetchFailure(String failureReason);
+    public void onOpenIssuesFetchFailure(VolleyError volleyError);
 }

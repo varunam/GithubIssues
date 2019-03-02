@@ -22,6 +22,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
+
 import java.util.ArrayList;
 
 /**
@@ -118,10 +120,10 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
     }
     
     @Override
-    public void onOpenIssuesFetchFailure(String failureReason) {
-        Log.e(TAG, "Failed to fetchOpenIssues: " + failureReason);
+    public void onOpenIssuesFetchFailure(VolleyError error) {
+        Log.e(TAG, "Failed to fetchOpenIssues: " + error.getLocalizedMessage());
         hideProgressDialog();
-        toast("Something went wrong\nPlease try again");
+        toast(error.getLocalizedMessage());
     }
     
     @Override
@@ -130,9 +132,9 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
     }
     
     @Override
-    public void onClosedIssuesFetchFailure(String failureReason) {
-        Log.e(TAG, "Failed to fetchClosedIssues: " + failureReason);
+    public void onClosedIssuesFetchFailure(VolleyError error) {
+        Log.e(TAG, "Failed to fetchClosedIssues: " + error.getLocalizedMessage());
         hideProgressDialog();
-        toast("Something went wrong\nPlease try again");
+        toast(error.getLocalizedMessage());
     }
 }
