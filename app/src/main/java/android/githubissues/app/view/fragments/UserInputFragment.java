@@ -136,6 +136,9 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
     public void onClosedIssuesFetchFailure(VolleyError error) {
         Log.e(TAG, "Failed to fetchClosedIssues: " + error.getLocalizedMessage());
         hideProgressDialog();
-        toast(error.getLocalizedMessage());
+        if (error.getLocalizedMessage() != null && !TextUtils.isEmpty(error.getLocalizedMessage()))
+            toast(error.getLocalizedMessage());
+        else
+            toast("Input not valid");
     }
 }
