@@ -3,8 +3,8 @@ package android.githubissues.app.view.apicalls.closedissues;
 import android.githubissues.app.view.apicalls.model.Issue;
 import android.githubissues.app.view.apicalls.model.IssueStatus;
 import android.githubissues.app.view.utils.Constants;
-import android.githubissues.app.view.volley.VolleyStringRequest;
 import android.githubissues.app.view.volley.VolleyRequestQueue;
+import android.githubissues.app.view.volley.VolleyStringRequest;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -29,27 +29,23 @@ public class FetchClosedIssuesApi {
     private StringRequest fetchClosedIssuesRequest;
     private ClosedIssuesFetchedCallbacks closedIssuesFetchedCallbacks;
     
-    private FetchClosedIssuesApi(@NonNull String organisationName, @NonNull String repositoryName) {
+    public static FetchClosedIssuesApi getInstance() {
+        if (fetchClosedIssuesApi == null)
+            fetchClosedIssuesApi = new FetchClosedIssuesApi();
+        return fetchClosedIssuesApi;
+    }
+    
+    public void fetchOpenIssues(@NonNull String organisationName, @NonNull String repositoryName, ClosedIssuesFetchedCallbacks openIssuesFetchedCallbacks) {
+        this.closedIssuesFetchedCallbacks = openIssuesFetchedCallbacks;
         URL = Constants.ApiConstants.BASE_URL + organisationName + "/" + repositoryName +
                 Constants.ApiConstants.ISSUE_STATE_CLOSED;
-        Log.d(TAG,"Closed Issues URL: " + URL);
+        Log.d(TAG, "Closed Issues URL: " + URL);
         fetchClosedIssuesRequest = new VolleyStringRequest(
                 Request.Method.GET,
                 URL,
                 fetchOpenIssuesSuccessListener,
                 fetchOpenIssuesFailureListener
         );
-    }
-    
-    public static FetchClosedIssuesApi getInstance(@NonNull String organisationName, @NonNull String repositoryName) {
-        if (fetchClosedIssuesApi == null)
-            fetchClosedIssuesApi = new FetchClosedIssuesApi(organisationName, repositoryName);
-        return fetchClosedIssuesApi;
-    }
-    
-    public void fetchOpenIssues(ClosedIssuesFetchedCallbacks openIssuesFetchedCallbacks) {
-        Log.d(TAG, URL);
-        this.closedIssuesFetchedCallbacks = openIssuesFetchedCallbacks;
         VolleyRequestQueue.getInstance().addToRequestQueue(fetchClosedIssuesRequest);
     }
     

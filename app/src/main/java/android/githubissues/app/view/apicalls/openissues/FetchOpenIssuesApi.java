@@ -3,8 +3,8 @@ package android.githubissues.app.view.apicalls.openissues;
 import android.githubissues.app.view.apicalls.model.Issue;
 import android.githubissues.app.view.apicalls.model.IssueStatus;
 import android.githubissues.app.view.utils.Constants;
-import android.githubissues.app.view.volley.VolleyStringRequest;
 import android.githubissues.app.view.volley.VolleyRequestQueue;
+import android.githubissues.app.view.volley.VolleyStringRequest;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -29,26 +29,22 @@ public class FetchOpenIssuesApi {
     private StringRequest fetchOpenIssuesRequest;
     private OpenIssuesFetchedCallbacks openIssuesFetchedCallbacks;
     
-    private FetchOpenIssuesApi(@NonNull String organisationName, @NonNull String repositoryName) {
+    public static FetchOpenIssuesApi getInstance() {
+        if (fetchOpenIssuesApi == null)
+            fetchOpenIssuesApi = new FetchOpenIssuesApi();
+        return fetchOpenIssuesApi;
+    }
+    
+    public void fetchOpenIssues(@NonNull String organisationName, @NonNull String repositoryName, OpenIssuesFetchedCallbacks openIssuesFetchedCallbacks) {
         URL = Constants.ApiConstants.BASE_URL + organisationName + "/" + repositoryName +
                 Constants.ApiConstants.ISSUE_STATE_OPEN;
-        Log.d(TAG,"Open Issues URL: " + URL);
+        Log.d(TAG, "Open Issues URL: " + URL);
         fetchOpenIssuesRequest = new VolleyStringRequest(
                 Request.Method.GET,
                 URL,
                 fetchOpenIssuesSuccessListener,
                 fetchOpenIssuesFailureListener
         );
-    }
-    
-    public static FetchOpenIssuesApi getInstance(@NonNull String organisationName, @NonNull String repositoryName) {
-        if (fetchOpenIssuesApi == null)
-            fetchOpenIssuesApi = new FetchOpenIssuesApi(organisationName, repositoryName);
-        return fetchOpenIssuesApi;
-    }
-    
-    public void fetchOpenIssues(OpenIssuesFetchedCallbacks openIssuesFetchedCallbacks) {
-        Log.d(TAG, URL);
         this.openIssuesFetchedCallbacks = openIssuesFetchedCallbacks;
         VolleyRequestQueue.getInstance().addToRequestQueue(fetchOpenIssuesRequest);
     }

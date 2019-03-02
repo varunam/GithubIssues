@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,15 +71,23 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
         int id = view.getId();
         switch (id) {
             case R.id.ui_fetch_issues_button_id:
-                showProgressDialog();
                 String organisationName = organisationNameEditText.getText().toString().trim();
                 String repositoryName = repositoryNameEditText.getText().toString().trim();
                 Log.d(TAG, "organisationName: " + organisationName + "\n" +
                         "repositoryName: " + repositoryName);
-                FetchOpenIssuesApi.getInstance(organisationName,
-                        repositoryName).fetchOpenIssues(this);
-                FetchClosedIssuesApi.getInstance(organisationName,
-                        repositoryName).fetchOpenIssues(this);
+                if (TextUtils.isEmpty(organisationName)) {
+                    organisationNameEditText.setError("Required");
+                    organisationNameEditText.requestFocus();
+                } else if (TextUtils.isEmpty(repositoryName)) {
+                    repositoryNameEditText.setError("Required");
+                    repositoryNameEditText.requestFocus();
+                } else {
+                    showProgressDialog();
+                    FetchOpenIssuesApi.getInstance().fetchOpenIssues(organisationName,
+                            repositoryName, this);
+                    FetchClosedIssuesApi.getInstance().fetchOpenIssues(organisationName,
+                            repositoryName, this);
+                }
                 break;
             default:
                 break;
