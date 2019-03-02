@@ -15,6 +15,7 @@ public class Issue {
     
     public Issue(IssueStatus issue_status) {
         if (issue_status == IssueStatus.OPEN) {
+            this.issue_status = issue_status;
             this.patch_url = Constants.NOT_AVAILABLE;
             this.pull_request_number = Constants.NOT_AVAILABLE;
         }

@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mainViewModel.getOpenIssues().observe(this, openIssuesObserver);
         mainViewModel.getClosedIssues().observe(this, closedIssuesObserver);
+        mainViewModel.getUserInputReceived().observe(this, userInputReceivedObserver);
     }
     
     private void launchUserInputFragment() {
@@ -49,8 +50,10 @@ public class MainActivity extends AppCompatActivity {
     private Observer<ArrayList<Issue>> openIssuesObserver = new Observer<ArrayList<Issue>>() {
         @Override
         public void onChanged(@Nullable ArrayList<Issue> issues) {
-            if (issues != null)
+            if (issues != null) {
                 Log.d(TAG, "received openIssues: " + issues.size());
+                mainViewModel.setUserInputReceived(true);
+            }
         }
     };
     
@@ -61,4 +64,21 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "received closedIssues: " + issues.size());
         }
     };
+    
+    private Observer<Boolean> userInputReceivedObserver = new Observer<Boolean>() {
+        @Override
+        public void onChanged(@Nullable Boolean aBoolean) {
+            launchIssuesListFragment();
+        }
+    };
+    
+    private void launchIssuesListFragment() {
+        if (issuesListFragment == null)
+            issuesListFragment = IssuesListFragment.newInstance();
+        
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_container_id, issuesListFragment)
+                .commitAllowingStateLoss();
+    }
 }
