@@ -12,12 +12,13 @@ import android.githubissues.app.view.viewmodel.MainViewModel;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ import java.util.ArrayList;
  */
 public class UserInputFragment extends Fragment implements View.OnClickListener, OpenIssuesFetchedCallbacks, ClosedIssuesFetchedCallbacks {
     
-    private EditText organisationNameEditText, repositoryNameEditText;
+    private static final String TAG = UserInputFragment.class.getSimpleName();
+    private TextInputEditText organisationNameEditText, repositoryNameEditText;
     private Button fetchIssuesButton;
     private MainViewModel mainViewModel;
     private ProgressDialog progressDialog;
@@ -71,10 +73,12 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
                 showProgressDialog();
                 String organisationName = organisationNameEditText.getText().toString().trim();
                 String repositoryName = repositoryNameEditText.getText().toString().trim();
-                FetchOpenIssuesApi.getInstance("prestodb",
-                        "presto").fetchOpenIssues(this);
-                FetchClosedIssuesApi.getInstance("prestodb",
-                        "presto").fetchOpenIssues(this);
+                Log.d(TAG, "organisationName: " + organisationName + "\n" +
+                        "repositoryName: " + repositoryName);
+                FetchOpenIssuesApi.getInstance(organisationName,
+                        repositoryName).fetchOpenIssues(this);
+                FetchClosedIssuesApi.getInstance(organisationName,
+                        repositoryName).fetchOpenIssues(this);
                 break;
             default:
                 break;
@@ -106,7 +110,9 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
     
     @Override
     public void onOpenIssuesFetchFailure(String failureReason) {
-    
+        Log.e(TAG, "Failed to fetchOpenIssues: " + failureReason);
+        hideProgressDialog();
+        toast("Something went wrong\nPlease try again");
     }
     
     @Override
@@ -116,6 +122,8 @@ public class UserInputFragment extends Fragment implements View.OnClickListener,
     
     @Override
     public void onClosedIssuesFetchFailure(String failureReason) {
-    
+        Log.e(TAG, "Failed to fetchClosedIssues: " + failureReason);
+        hideProgressDialog();
+        toast("Something went wrong\nPlease try again");
     }
 }

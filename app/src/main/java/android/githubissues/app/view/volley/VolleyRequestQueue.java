@@ -1,4 +1,4 @@
-package android.githubissues.app.view.apicalls;
+package android.githubissues.app.view.volley;
 
 import android.githubissues.app.view.application.ThisApplication;
 

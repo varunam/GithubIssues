@@ -1,9 +1,10 @@
 package android.githubissues.app.view.apicalls.closedissues;
 
-import android.githubissues.app.view.apicalls.VolleyRequestQueue;
 import android.githubissues.app.view.apicalls.model.Issue;
 import android.githubissues.app.view.apicalls.model.IssueStatus;
 import android.githubissues.app.view.utils.Constants;
+import android.githubissues.app.view.volley.VolleyStringRequest;
+import android.githubissues.app.view.volley.VolleyRequestQueue;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -31,7 +32,8 @@ public class FetchClosedIssuesApi {
     private FetchClosedIssuesApi(@NonNull String organisationName, @NonNull String repositoryName) {
         URL = Constants.ApiConstants.BASE_URL + organisationName + "/" + repositoryName +
                 Constants.ApiConstants.ISSUE_STATE_CLOSED;
-        fetchClosedIssuesRequest = new StringRequest(
+        Log.d(TAG,"Closed Issues URL: " + URL);
+        fetchClosedIssuesRequest = new VolleyStringRequest(
                 Request.Method.GET,
                 URL,
                 fetchOpenIssuesSuccessListener,

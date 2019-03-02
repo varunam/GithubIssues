@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         mainViewModel.getOpenIssues().observe(this, openIssuesObserver);
         mainViewModel.getClosedIssues().observe(this, closedIssuesObserver);
-        //mainViewModel.getUserInputReceived().observe(this, userInputReceivedObserver);
     }
     
     private void launchUserInputFragment() {
