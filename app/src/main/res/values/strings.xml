@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">GithubIssues</string>
+    <string name="organisation_name">Organisation Name</string>
+    <string name="fetch_issues">Fetch Issues</string>
+    <string name="repository_name">Repository Name</string>
+    <string name="user_label">User:</string>
+    <string name="issue_status_label">Issue status:</string>
+    <string name="pr_number_label">PR Number:</string>
+    <string name="patch_url_label">Patch Url:</string>
 </resources>
